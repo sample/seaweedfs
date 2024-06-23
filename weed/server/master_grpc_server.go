@@ -361,7 +361,7 @@ func (ms *MasterServer) informNewLeader(stream master_pb.Seaweed_KeepConnectedSe
 
 func (ms *MasterServer) addClient(filerGroup, clientType string, clientAddress pb.ServerAddress) (clientName string, messageChan chan *master_pb.KeepConnectedResponse) {
 	clientName = filerGroup + "." + clientType + "@" + string(clientAddress)
-	glog.V(0).Infof("+ client %v", clientName)
+	glog.V(1).Infof("+ client %v", clientName)
 
 	// we buffer this because otherwise we end up in a potential deadlock where
 	// the KeepConnected loop is no longer listening on this channel but we're
@@ -376,7 +376,7 @@ func (ms *MasterServer) addClient(filerGroup, clientType string, clientAddress p
 }
 
 func (ms *MasterServer) deleteClient(clientName string) {
-	glog.V(0).Infof("- client %v", clientName)
+	glog.V(1).Infof("- client %v", clientName)
 	ms.clientChansLock.Lock()
 	// close message chan, so that the KeepConnected go routine can exit
 	if clientChan, ok := ms.clientChans[clientName]; ok {

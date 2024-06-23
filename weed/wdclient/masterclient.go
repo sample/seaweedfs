@@ -134,7 +134,7 @@ func (mc *MasterClient) KeepConnectedToMaster(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
-			glog.V(0).Infof("Connection to masters stopped: %v", ctx.Err())
+			glog.V(1).Infof("Connection to masters stopped: %v", ctx.Err())
 			return
 		default:
 			mc.tryAllMasters(ctx)
@@ -240,7 +240,7 @@ func (mc *MasterClient) tryConnectToMaster(ctx context.Context, master pb.Server
 		for {
 			resp, err := stream.Recv()
 			if err != nil {
-				glog.V(0).Infof("%s.%s masterClient failed to receive from %s: %v", mc.FilerGroup, mc.clientType, master, err)
+				glog.V(1).Infof("%s.%s masterClient failed to receive from %s: %v", mc.FilerGroup, mc.clientType, master, err)
 				stats.MasterClientConnectCounter.WithLabelValues(stats.FailedToReceive).Inc()
 				return err
 			}
